@@ -1,0 +1,22 @@
+body {
+}
+
+#BuildingsPane {
+	display: block;
+}
+
+#UpgradesPane {
+	display: none;
+}
+
+#DeityPane {
+	display: none;
+}
+
+#ConquestPane {
+	display: none;
+}
+
+#TradePane {
+	display: none;
+}

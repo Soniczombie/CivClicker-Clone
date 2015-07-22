@@ -1,0 +1,828 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>PlanetSmasher.Windows</title>
+
+    <!-- WinJS references -->
+    <!--<link href="//Microsoft.WinJS.2.0/css/ui-dark.css" rel="stylesheet" />
+    <script src="//Microsoft.WinJS.2.0/js/base.js"></script>-->
+    <!--<script src="//Microsoft.WinJS.2.0/js/ui.js"></script>-->
+    <!-- PlanetSmasher.Windows references -->
+    <link href="css/default.css" rel="stylesheet" />
+    <script src="js/default.js"></script>
+</head>
+<body>
+    <div id="Header">
+
+    </div>
+    <div id="LeftBar" style="float:left; width:50%">
+        <div id="ResouceHub">
+            <h3>Basic Resources</h3>
+            <table id="simpleResources">
+                <tbody>
+                    <!-- tr is for row -->
+                    <tr>
+                        <td>
+                            <input type="button" value="Gather Food" />
+                        </td>
+                        <td>
+                            <p>Food</p>
+                        </td>
+                        <td id="TotalFood"></td>
+                        <td id="TotalFoodStorage">
+                            <p> Warehouse Capacity: (<span id="TotalFoodStorage"></span>)</p>
+                        </td>
+                        <td>
+                            <span id="FoodRate"></span><p>/s</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" value="Gather Wood" />
+                        </td>
+                        <td>
+                            <p>Wood</p>
+                        </td>
+                        <td id="TotalWood"></td>
+                        <td id="TotalWoodStorage">
+                            <p> Warehouse Capacity: (<span id="TotalWoodStorage"></span>)</p>
+                        </td>
+                        <td>
+                            <span id="WoodRate"></span><p>/s</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" value="Gather Stone" />
+                        </td>
+                        <td>
+                            <p>Stone</p>
+                        </td>
+                        <td id="TotalStone"></td>
+                        <td id="TotalStoneStorage">
+                            <p> Warehouse Capacity: (<span id="TotalStoneStorage"></span>)</p>
+                        </td>
+                        <td>
+                            <span id="StoneRate"></span><p>/s</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="SresourceHub">
+            <table>
+                <thead>
+                    <tr>
+                        <th><p>Special Resources</p></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><p>Skins</p></td>
+                        <td id="SkinsTotal"></td>
+                        <td><!-- icon --></td>
+                        <td><!-- gap between resources --></td>
+                        <td><p>Leather</p></td>
+                        <td id="LeatherTotal"></td>
+                        <td><!-- icon --></td>
+                        <td><!-- gap between resources --></td>
+                    </tr>
+                    <tr>
+                        <td><p>Herbs</p></td>
+                        <td id="HerbsTotal"></td>
+                        <td><!-- icon --></td>
+                        <td><!-- gap between resources --></td>
+                        <td><p>Piety</p></td>
+                        <td id="PietyTotal"></td>
+                        <td><!-- icon --></td>
+                        <td><!-- gap between resources --></td>
+                    </tr>
+                    <tr>
+                        <td><p>Ore</p></td>
+                        <td id="OreTotal"></td>
+                        <td><!-- icon --></td>
+                        <td><!-- gap between resources --></td>
+                        <td><p>Metal</p></td>
+                        <td id="MetalTotal"></td>
+                        <td><!-- icon --></td>
+                        <td><!-- gap between resources --></td>
+                    </tr>
+                    <tr>
+                        <td><p>Gold</p></td>
+                        <td id="GoldTotal"></td>
+                        <td><!-- icon --></td>
+                        <td><!-- gap between resources --></td>
+                        <td></td>
+                        <td></td>
+                        <td><!-- icon --></td>
+                        <td><!-- gap between resources --></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="SelectionPane">
+            <div id="Selectors">
+                <!-- move style to css -->
+                <div id="SelectBuildings" class="subselector" onclick="changeSelector('b')">Buildings</div>
+                <div id="SelectUpgrades" class="subselector" onclick="changeSelector('u')">Upgrades</div>
+                <div id="SelectDeity" class="subselector" onclick="changeSelector('d')">Deity</div>
+                <div id="SelectConquest" class="subselector" onclick="changeSelector('c')">Conquest</div>
+                <div id="SelectTrade" class="subselector" onclick="changeSelector('t')">Trade</div>
+            </div>
+            <div id="BuildingsPane">
+                <h3>Buildings</h3>
+                <table id="Buildtable">
+                    <tbody>
+                        <tr>
+                            <td><button>Build Tent</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Tents:</p></td>
+                            <td id="TentTotal"></td>
+                            <td>2 skins, 2 wood: +1 max pop</td>
+                        </tr>
+                        <tr>
+                            <td><button>Build Wooden Hut</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Huts:</p></td>
+                            <td id="HutTotal"></td>
+                            <td>1 skin, 20 wood: +3 max pop</td>
+                        </tr>
+                        <tr>
+                            <td><button>Build Cottage</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Cottages:</p></td>
+                            <td id="CottageTotal"></td>
+                            <td>10 wood, 30 stone: +6 max pop</td>
+                        </tr>
+                        <tr>
+                            <td><button>Build House</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Houses:</p></td>
+                            <td id="HouseTotal"></td>
+                            <td>30 wood, 70 stone: +10 max pop</td>
+                        </tr>
+                        <tr>
+                            <td><button>Build Mansion</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Mansion:</p></td>
+                            <td id="MansionTotal"></td>
+                            <td>200 wood, 200 stone 20 leather: +50 max pop</td>
+                        </tr>
+
+                        <tr>
+                            <td><button>Build Barn</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Barns:</p></td>
+                            <td id="BarnsTotal"></td>
+                            <td>100 wood: store +200 food</td>
+                        </tr>
+                        <tr>
+                            <td><button>Build Wood Stockpile</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Wood Stockpile:</p></td>
+                            <td id="WStockpileTotal"></td>
+                            <td>100 wood: store +200 wood</td>
+                        </tr>
+                        <tr>
+                            <td><button>Build Stone Stockpile</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Stone Stockpiles:</p></td>
+                            <td id="SStockpileTotal"></td>
+                            <td>100 wood: store +200 stone</td>
+                        </tr>
+
+                        <tr>
+                            <td><button>Build Tannery</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Tanneries:</p></td>
+                            <td id="TanneryTotal"></td>
+                            <td>30 wood, 70 stone: allows 1 tanner</td>
+                        </tr>
+                        <tr>
+                            <td><button>Build Smithy</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Smithies:</p></td>
+                            <td id="SmithsTotal"></td>
+                            <td>30 wood, 70 stone, 2 ore: allows 1 blacksmith</td>
+                        </tr>
+                        <tr>
+                            <td><button>Build Apothecary</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Apothecaries:</p></td>
+                            <td id="ApothecaryTotal"></td>
+                            <td>30 wood, 70 stone, 2 herbs: allows 1 apothecary</td>
+                        </tr>
+                        <tr>
+                            <td><button>Build Temple</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Temples:</p></td>
+                            <td id="TempleTotal"></td>
+                            <td>30 wood , 120 stone, 10 herbs: allows 1 cleric</td>
+                        </tr>
+                        <tr>
+                            <td><button>Build Barracks</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Barracks:</p></td>
+                            <td id="BarracksTotal"></td>
+                            <td>20 food, 60 wood, 120 stone, 10 metal: allows 10 Soliders</td>
+                        </tr>
+                        <tr>
+                            <td><button>Build Stable</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Stables:</p></td>
+                            <td id="StableTotal"></td>
+                            <td>60 food, 60 wood, 120 stone, 10 leather: allows 10 cavalry</td>
+                        </tr>
+
+                        <tr>
+                            <td><button>Build Graveyard</button></td>
+                            <td><button>x10</button></td>
+                            <td><button>x100</button></td>
+                            <td><button>1k</button></td>
+                            <td><p>Graveyards:</p></td>
+                            <td id="GraveTotal"></td>
+                            <td>100 wood, 200 stone , 50 herbs: contains 100 graves</td>
+                        </tr>
+                        <tr>
+                            <td><button>Build Mill</button></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><p>Mills:</p></td>
+                            <td id="MillsTotal"></td>
+                            <td><span id="Millwood"></span> wood, <span id="Millstone"></span> stone: improves farmers</td>
+                        </tr>
+                        <tr>
+                            <td><button>Build Fortification</button></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><p>Fortifications:</p></td>
+                            <td id="FortTotal"></td>
+                            <td><span id="StoneFort"></span> stone: helps protect against attack</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div id="UpgradesPane">
+                <h3>Upgrades</h3>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><button id="Skinningbtn">Skinning (10 skins)</button></td>
+                            <td><p>Farmers can collect skins</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Harvestingbtn">Harvesting (10 herbs)</button></td>
+                            <td><p>Wooodcutters can collect herbs</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Prospectingbtn">Prospecting (10 ore)</button></td>
+                            <td><p>Miners can collect ore/p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Masonrybtn">Masonry (100 wood, 100 stone)</button></td>
+                            <td><p>Unlock more buildings and upgrades</p></td>
+                        </tr>
+
+                        <!-- Masonry upgrades-->
+                        <tr>
+                            <td><button id="Domesticationbtn">Domestication (20 Leather)</button></td>
+                            <td><p>Increase farmer food output</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Ploughsharesbtn">Ploughshares (20 metal)</button></td>
+                            <td><p>Increase farmer food output</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Irrigationbtn">Irrigation (500 wood, 200 stone)</button></td>
+                            <td><p>Increase farmer food output</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Constructionbtn">Construction (1000 wood, 1000 stone)</button></td>
+                            <td><p>Unlock more buildings and upgrades</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Granariesbtn">Granaries (1000 wood ,1000 stone)</button></td>
+                            <td><p>Barns store double the amount of food</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="BasicWbtn">Basic Weaponry (500 wood, 500 metal)</button></td>
+                            <td><p>Improve soldiers</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="BasicSbtn">Basic Shields (500 wood, 500 leather)</button></td>
+                            <td><p>Improve soldiers</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Horsebackbtn">Horseback Riding (500 wood, 500 leather)</button></td>
+                            <td><p>Build stables</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Wheelbtn">The Wheel (500 wood, 500 stone)</button></td>
+                            <td><p>Build mills</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Writingbtn">Writing (500 skins)</button></td>
+                            <td><p>Increase cleric piety generation</p></td>
+                        </tr>
+
+                        <!-- Construction Upgrades-->
+                        <tr>
+                            <td><button id="Butcheringbtn">Butchering (Skinning, 40 leather)</button></td>
+                            <td><p>More farmers collect more skins</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Gardeningbtn">Gardening (Harvesting, 40 herbs)</button></td>
+                            <td><p>More woodcutters collect more herbs</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Extractionbtn">Extraction (prospecting, 40 metal)</button></td>
+                            <td><p>More miners collect more ore</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Architecturebtn">Architecture (10000 wood, 10000 stone)</button></td>
+                            <td><p>Unlock more buildings and upgrades</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Tenementsbtn">Tenements (200 food, 500 wood, 500 stone)</button></td>
+                            <td><p>Houses support +2 workers</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Palisadebtn">Palisade (2000 wood, 1000 stone)</button></td>
+                            <td><p>Enemies do less damange</p></td>
+                        </tr>
+
+                        <!--Architecture upgrades-->
+                        <tr>
+                            <td><button id="Flensingbtn">Flensing (1000 metal)</button></td>
+                            <td><p>Collect skins more frequently</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Maceratingbtn">Macerating (500 leather, 500 stone)</button></td>
+                            <td><p>Collect ore more frequently</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Rotationbtn">Crop Rotation (5000 herbs, 1000 piety)</button></td>
+                            <td><p>Increase Farmer food output</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Breedingbtn">Selective Breeding (5000 skins, 1000 piety)</button></td>
+                            <td><p>Increase Farmer food output</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Fertiliserbtn">Fertilisers (5000 ore, 1000 piety)</button></td>
+                            <td><p>Increase Farmer food output</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Slumsbtn">Slums (500 food, 1000 wood, 1000 stone)</button></td>
+                            <td><p>Houses support +2 workers</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Civlebtn">Civil Service (5000 piety)</button></td>
+                            <td><p>Increase basic resources from clicking</p></td>
+                        </tr>
+
+                        <!-- writing upgrades-->
+
+                        <tr>
+                            <td><button id="Administrationbtn">Administration (1000 stone, 1000 skins)</button></td>
+                            <td><p>Increase land gained from raiding</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Codebtn">Code of Laws (1000 stone, 1000 skins)</button></td>
+                            <td><p>Reduce unhappiness caused by overcrowding</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Mathbtn">Mathematics (1000 herbs, 1000 piety)</button></td>
+                            <td><p>Create siege engines</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Aestheticsbtn">Aesthetics (5000 Piety)</button></td>
+                            <td><p>Building temples increases happiness</p></td>
+                        </tr>
+
+                        <!-- Civil Service Upgrades-->
+                        <tr>
+                            <td><button id="Feudbtn">Feudalism (10000 piety)</button></td>
+                            <td><p>Further increase basic resources from clicking</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Guildsbtn">Guilds (10000 piety)</button></td>
+                            <td><p> increase Special resources from clicking</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Serfbtn">Serfs (20000 piety)</button></td>
+                            <td><p>Unemployed workers increase resources from clicking</p></td>
+                        </tr>
+                        <tr>
+                            <td><button id="Nationalismbtn">Nationalism (50000 piety)</button></td>
+                            <td><p>Soldiers increase basic resources from clicking</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="DeityPane">
+                <h3>Deity</h3>
+                <table id="deityHometable">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <button id="Worshipbtn">Worship (1000 Piety)</button>
+                            </td>
+                            <td><p>Begin worshipping a deity(requires temple)</p></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="Iconoclasmbtn">Iconoclasm (1000 Piety)</button>
+                            </td>
+                            <td><p>Remove and old deity</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="Fieldstable">
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td><button id="Alterbtn">Build Altar</button></td>
+                            <td><p>500 food, 500 wood, 200 stone, 200 piety: +1 devotion</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>10d</p></td>
+                            <td><button id="Abundancebtn">Blessing of Abundance</button></td>
+                            <td><p>1000 piety: increase farmer food output</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>20d</p></td>
+                            <td><button id="Wickerbtn">Burn Wicker Man</button></td>
+                            <td><p>500 wood, 1 worker: random bonus to a resource</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>30d</p></td>
+                            <td><button id="Wastebtn">Abide No Waste</button></td>
+                            <td><p>1000 piety: workers will eat corpses if there is no food left</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>40d</p></td>
+                            <td><button id="Walkbtn">Walk Behind The Rows</button><button id="ceasewalkbtn">Cease Walking</button></td>
+                            <td><p>1 worker per second: boost food production</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>50d</p></td>
+                            <td><button id="staybtn">Stay with Us</button></td>
+                            <td><p>5000 piety: traders stay longer</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="ConquestPane">
+                <h3>Conquest</h3>
+                <h2>Army</h2>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><button>-All</button></td>
+                            <td><button>-100</button></td>
+                            <td><button>-10</button></td>
+                            <td><button><</button></td>
+                            <td><p>Soldiers:</p></td>
+                            <td><p id="CQSolidersTotal"></p></td>
+                            <td><button>></button></td>
+                            <td><button>+10</button></td>
+                            <td><button>+100</button></td>
+                            <td><button>All</button></td>
+                        </tr>
+                        <tr>
+                            <td><button>-All</button></td>
+                            <td><button>-100</button></td>
+                            <td><button>-10</button></td>
+                            <td><button><</button></td>
+                            <td><p>Cavalry:</p></td>
+                            <td><p id="CQCavalryTotal"></p></td>
+                            <td><button>></button></td>
+                            <td><button>+10</button></td>
+                            <td><button>+100</button></td>
+                            <td><button>All</button></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><p>Siege Engines:</p></td>
+                            <td><p id="CQEnginesTotal"></p></td>
+                            <td><button>></button></td>
+                            <td><button>+10</button></td>
+                            <td><button>+100</button></td>
+                            <td><button>All</button></td>
+                            <td><p>50 metal , 50 leather, 200 wood</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="RaidTable">
+                    <thead><tr><td><h3>To War!</h3></td></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <button id="Thropbtn">Raid Thorp</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="Hamletbtn">Raid Hamlet</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="Villagebtn">Raid Village</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="SmallTbtn">Raid Small Town</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="LargeTbtn">Raid Large Town</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="SmallCbtn">Raid Small City</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="LargeCbtn">Raid Large City</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="Metrobtn">Raid Metropolis</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="SmallNbtn">Raid Small Nation</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="Nationbtn">Raid Nation</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="LargeNbtn">Raid Large Nation</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button id="Empirebtn">Raid Empire</button>
+                            </td>
+                        </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+                    </tbody>
+                </table>
+                <div id="Plunderdiv">
+                    <h3>Victory!</h3>
+                    <button id="Plunderbtn">Plunder Resources!</button>
+                </div>
+            </div>
+            <div id="TradePane">
+                <h3>Trade</h3>
+            </div>
+        </div>
+    </div>
+    <div id="RightBar" style="float:left; width:50%">
+        <div id="Populationdiv">
+            <h3>Population</h3>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p>Current Population:</p>
+                        </td>
+                        <td><p id="currentPop"></p></td>
+                    </tr>
+                    <tr>
+                        <td><p>Maximum Population:</p></td>
+                        <td><p id="maxPop"></p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="Jobsdiv">
+            <h3>Jobs</h3>
+            <table>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><p>Unemployed:</p></td>
+                    <td><p id="Unemployedtotal"></p></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><p>Unassigned Workers</p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><p>Sick:</p></td>
+                    <td><p id="Sicktotal"></p></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><p>Sick workers</p></td>
+                </tr>
+                <tr>
+                    <td><button>-All</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-10</button></td>
+                    <td><button><</button></td>
+                    <td><p>Farmers:</p></td>
+                    <td><p id="Farmerstotal"></p></td>
+                    <td><button>></button></td>
+                    <td><button>-10</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-All</button></td>
+                    <td><p>Automatically gather food</p></td>
+                </tr>
+                <tr>
+                    <td><button>-All</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-10</button></td>
+                    <td><button><</button></td>
+                    <td><p>WoodCutters:</p></td>
+                    <td><p id="WCtotal"></p></td>
+                    <td><button>></button></td>
+                    <td><button>-10</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-All</button></td>
+                    <td><p>Automatically gather wood</p></td>
+                </tr>
+                <tr>
+                    <td><button>-All</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-10</button></td>
+                    <td><button><</button></td>
+                    <td><p>Miners:</p></td>
+                    <td><p id="Minerstotal"></p></td>
+                    <td><button>></button></td>
+                    <td><button>-10</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-All</button></td>
+                    <td><p>Automatically gather stone</p></td>
+                </tr>
+                <tr>
+                    <td><button>-All</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-10</button></td>
+                    <td><button><</button></td>
+                    <td><p>Tanners</p></td>
+                    <td><p id="Tantotal"></p></td>
+                    <td><button>></button></td>
+                    <td><button>-10</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-All</button></td>
+                    <td><p>Convert skins to leather</p></td>
+                </tr>
+                <tr>
+                    <td><button>-All</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-10</button></td>
+                    <td><button><</button></td>
+                    <td><p>Blacksmiths:</p></td>
+                    <td><p id="BStotal"></p></td>
+                    <td><button>></button></td>
+                    <td><button>-10</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-All</button></td>
+                    <td><p>Convert ore to metal</p></td>
+                </tr>
+                <tr>
+                    <td><button>-All</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-10</button></td>
+                    <td><button><</button></td>
+                    <td><p>Apothecaries:</p></td>
+                    <td><p id="Apothtotal"></p></td>
+                    <td><button>></button></td>
+                    <td><button>-10</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-All</button></td>
+                    <td><p>Cure sick workers</p></td>
+                </tr>
+                <tr>
+                    <td><button>-All</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-10</button></td>
+                    <td><button><</button></td>
+                    <td><p>Clerics:</p></td>
+                    <td><p id="Clerictotal"></p></td>
+                    <td><button>></button></td>
+                    <td><button>-10</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-All</button></td>
+                    <td><p>Generate piety, bury corpses</p></td>
+                </tr>
+                <tr>
+                    <td><button>-All</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-10</button></td>
+                    <td><button><</button></td>
+                    <td><p>Soldiers:</p></td>
+                    <td><p id="Soltotal"></p></td>
+                    <td><button>></button></td>
+                    <td><button>-10</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-All</button></td>
+                    <td><p>10 metal, 10 leather: protect from attack</p></td>
+                </tr>
+                <tr>
+                    <td><button>-All</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-10</button></td>
+                    <td><button><</button></td>
+                    <td><p>Cavalry:</p></td>
+                    <td><p id="Cavtotal"></p></td>
+                    <td><button>></button></td>
+                    <td><button>-10</button></td>
+                    <td><button>-100</button></td>
+                    <td><button>-All</button></td>
+                    <td><p>20 metal, 20 leather: protect from attack</p></td>
+                </tr>
+
+            </table>
+        </div>
+        <div id="Eventsdiv">
+
+        </div>
+        <div id="Detailsdiv">
+
+            <div id="Settings">
+                <h3>Settings</h3>
+                <button id="Mansave" style="display:block">Manual Save</button>
+                <button id="DisableAutosave" style="display:block">Disable Autosave</button>
+                <button id="Deletesave" style="display:block">Delete Save File</button>
+                <button id="Reset" style="display:block">Reset Game</button>
+
+                <button id="RenameCiv" style="display:block">Rename Civilisation</button>
+                <button id="RenameSelf" style="display:block">Rename Yourself</button>
+                <button id="RenameGod" style="display:block">Rename Deity</button>
+            </div>
+            <div id="Stats">
+                <h3>Stats</h3>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

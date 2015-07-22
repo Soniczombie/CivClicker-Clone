@@ -1,0 +1,50 @@
+body {
+}
+
+#BuildingsPane {
+	display: block;
+}
+
+#UpgradesPane {
+	display: none;
+}
+
+#DeityPane {
+	display: none;
+}
+
+#ConquestPane {
+	display: none;
+}
+
+#TradePane {
+	display: none;
+}
+.subselector
+{
+    display:inline
+}
+#Settings{
+    float:left;
+    width:50%
+}
+#Stats{
+    float:left;
+    width:50%
+}
+tr{
+    line-height:0;
+}
+td{
+    
+}
+table{
+    border-collapse:collapse;
+}
+button{
+    text-align:center;
+}
+
+table#Buildtable tbody tr td:first-child button{
+    width:160px;
+}
